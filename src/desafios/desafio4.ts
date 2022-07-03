@@ -21,9 +21,13 @@ let loginButton = document.getElementById('login-button') as HTMLButtonElement
 let searchButton = document.getElementById('search-button') as HTMLButtonElement
 let searchContainer = document.getElementById('search-container') as HTMLDivElement
 let searchInput = document.getElementById('search') as HTMLInputElement
-let passwordInput = document.getElementById('password') as HTMLInputElement
+let passwordInput = document.getElementById('senha') as HTMLInputElement
 let usernameInput = document.getElementById('login') as HTMLInputElement
 let apiKeyInput = document.getElementById('api-key') as HTMLInputElement
+
+usernameInput?.addEventListener('input', preencherLogin)
+passwordInput?.addEventListener('input', preencherSenha)
+apiKeyInput?.addEventListener('input', preencherApi)
 
 loginButton?.addEventListener('click', async () => {
   await criarRequestToken();
@@ -49,22 +53,22 @@ searchButton.addEventListener('click', async () => {
   searchContainer.appendChild(ul);
 })
 
-function preencherSenha() {
+function preencherSenha(): void {
   password = passwordInput.value;
   validateLoginButton();
 }
 
-function preencherLogin() {
+function preencherLogin(): void {
   username =  usernameInput.value;
   validateLoginButton();
 }
 
-function preencherApi() {
+function preencherApi(): void {
   apiKey = apiKeyInput.value;
   validateLoginButton();
 }
 
-function validateLoginButton() {
+function validateLoginButton(): void {
   if (password && username && apiKey) {
     loginButton.disabled = false;
   } else {
@@ -114,7 +118,7 @@ async function procurarFilme(query: string) {
   return result
 }
 
-async function adicionarFilme(filmeId:number) {
+async function adicionarFilme(filmeId: number) {
   let result = await HttpClient.get({
     url: `https://api.themoviedb.org/3/movie/${filmeId}?api_key=${apiKey}&language=en-US`,
     method: "GET"
